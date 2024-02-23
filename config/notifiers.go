@@ -31,7 +31,7 @@ var (
 		NotifierConfig: NotifierConfig{
 			VSendResolved: true,
 		},
-		Title: `{{ template "generic.webhook.title" . }}`,
+		Title: `{{ template "generic.webhook.title_new" . }}`,
 	}
 
 	// DefaultWebexConfig defines default values for Webex configurations.
@@ -504,7 +504,7 @@ type WebhookConfig struct {
 	MaxAlerts uint64 `yaml:"max_alerts" json:"max_alerts"`
 
 	// Title for Generic webhook notification.
-	Title string `yaml:"title,omitempty" json:"title,omitempty"`
+	Title string `yaml:"title_new,omitempty" json:"title_new,omitempty"`
 }
 
 // UnmarshalYAML implements the yaml.Unmarshaler interface.

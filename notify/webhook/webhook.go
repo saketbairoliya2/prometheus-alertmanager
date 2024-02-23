@@ -71,7 +71,7 @@ type Message struct {
 	Version         string `json:"version"`
 	GroupKey        string `json:"groupKey"`
 	TruncatedAlerts uint64 `json:"truncatedAlerts"`
-	Title           string `json:"title,omitempty"`
+	Title           string `json:"title_new,omitempty"`
 }
 
 func truncateAlerts(maxAlerts uint64, alerts []*types.Alert) ([]*types.Alert, uint64) {
@@ -85,7 +85,7 @@ func truncateAlerts(maxAlerts uint64, alerts []*types.Alert) ([]*types.Alert, ui
 // Notify implements the Notifier interface.
 func (n *Notifier) Notify(ctx context.Context, alerts ...*types.Alert) (bool, error) {
 	alerts, numTruncated := truncateAlerts(n.conf.MaxAlerts, alerts)
-	// data := notify.GetTemplateData(ctx, n.tmpl, alerts, n.logger)
+	data := notify.GetTemplateData(ctx, n.tmpl, alerts, n.logger)
 
 	groupKey, err := notify.ExtractGroupKey(ctx)
 	if err != nil {
@@ -93,8 +93,8 @@ func (n *Notifier) Notify(ctx context.Context, alerts ...*types.Alert) (bool, er
 	}
 
 	msg := &Message{
-		Version: "4",
-		// Data:            data,
+		Version:         "4",
+		Data:            data,
 		GroupKey:        groupKey.String(),
 		TruncatedAlerts: numTruncated,
 		Title:           n.conf.Title,
